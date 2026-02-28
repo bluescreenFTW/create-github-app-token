@@ -1,6 +1,8 @@
 import { main } from "../lib/main.js";
 
-// Verify `main` exits with an error when `owner` is set to an email address.
+// Verify `main` throws an error when `owner` is set to an email address.
+let didThrow = false;
+
 try {
   await main(
     "123456",
@@ -19,5 +21,10 @@ try {
     false
   );
 } catch (error) {
+  didThrow = true;
   console.error(error.message);
+}
+
+if (!didThrow) {
+  throw new Error("Expected an error when owner is an email address.");
 }
