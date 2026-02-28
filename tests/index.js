@@ -23,6 +23,15 @@ for (const file of testFiles) {
       GITHUB_STATE: undefined,
     };
     const { stderr, stdout } = await execa("node", [`tests/${file}`], { env });
+    if (file === "main-owner-email.test.js") {
+      t.true(
+        stderr.includes(
+          "Input 'owner' must be a GitHub user or organization name, not an email address."
+        )
+      );
+      t.is(stdout, "");
+      return;
+    }
     t.snapshot(stderr, "stderr");
     t.snapshot(stdout, "stdout");
   });
